@@ -73,14 +73,15 @@ def make_text(chains):
 
     words = []
 
-    key = ('Would', 'you')
-    list(key)
+    keys_list = chains.keys()
+    list(keys_list)
+    key = choice(keys_list)
     words.extend(key)
     
-    while choice(chains[key]) != 'am?':
-        key1 = (key[1], choice(chains[key]))
+    print(key)
 
-        list(key1)
+    while choice(chains[key]) != 'am?':
+        key1 = [key[1], choice(chains[key])]
 
         words.extend([choice(chains[key])])
 
