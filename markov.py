@@ -1,6 +1,6 @@
 """Generate Markov text from text files."""
 
-from random import choice
+from random import choice, randint
 
 
 def open_and_read_file(file_path):
@@ -72,20 +72,48 @@ def make_text(chains):
     """Return text from chains."""
 
     words = []
+    keys_list = []
+    tuple_list = []
 
-    keys_list = chains.keys()
-    list(keys_list)
-    key = choice(keys_list)
-    words.extend(key)
-    
-    print(key)
+    for key in chains:
+        keys_list.extend(key)
 
-    while choice(chains[key]) != 'am?':
-        key1 = [key[1], choice(chains[key])]
+    # i = randint(0, len(keys_list) - 2)
 
-        words.extend([choice(chains[key])])
+    # key1 = (keys_list[i], keys_list[i + 2])
 
-        key = key1
+    # print(key1)
+
+    # words.extend(key1)
+
+    i = 0
+
+    for word in range(len(keys_list)):
+        key_set = (keys_list[i], keys_list[i + 1])
+        tuple(key_set)
+
+        tuple_list.append(key_set)
+        
+        i = i + 2
+
+        if i >= len(keys_list):
+            break
+
+    first_key = choice(tuple_list)
+    words.extend([first_key[0]])
+
+    while choice(chains[first_key]) != 'am?':
+        key1 = ((first_key[1], choice(chains[first_key])))
+
+        print(key1)
+
+        list(key1)
+
+        words.extend([key1[1]])
+
+        first_key = key1
+
+    print(words)
 
     words.extend(['am?'])
 
