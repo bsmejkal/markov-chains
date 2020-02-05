@@ -1,19 +1,22 @@
 """Generate Markov text from text files."""
 
-from random import choice, randint
+from random import choice
 
 
-def open_and_read_file(file_path):
+def open_and_read_file(file_path1, file_path2):
     """Take file path as string; return text as string.
 
     Takes a string that is a file path, opens the file, and turns
     the file's contents as one string of text.
     """
 
-    with open(file_path) as f:
-        text = f.read()
+    with open(file_path1) as f:
+        text1 = f.read()
 
-    return text
+    with open(file_path2) as f:
+        text2 = f.read()
+
+    return text1 + ' ' + text2
 
 
 def make_chains(text_string):
@@ -69,10 +72,19 @@ def make_chains(text_string):
 def make_text(chains):
     """Return text from chains."""
 
-    key_names = choice(list(chains.keys()))
+    statement = True
 
-    words = [key_names[0], key_names[1]]
-    random_value = choice(chains[key_names])
+    while statement == True:
+        key_names = choice(list(chains.keys()))
+
+        words = [key_names[0], key_names[1]]
+
+        if key_names[0].istitle():
+            random_value = choice(chains[key_names])
+            statement = False
+
+        else:
+            statement = True
 
     while random_value is not None:
         key_names = (key_names[1], random_value)
@@ -82,10 +94,11 @@ def make_text(chains):
     return " ".join(words)
 
 
-input_path = "green-eggs.txt"
+input_path1 = "gettysburg.txt"
+input_path2 = "green-eggs.txt"
 
 # Open the file and turn it into one long string
-input_text = open_and_read_file(input_path)
+input_text = open_and_read_file(input_path1, input_path2)
 
 # Get a Markov chain
 chains = make_chains(input_text)
