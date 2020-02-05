@@ -42,25 +42,23 @@ def make_chains(text_string):
     """
 
     chains = {}
-    words_list = []
-
 
     text_string.strip()
     words = text_string.split()
 
-    words_list.extend(words)
-
     i = 0
 
-    for word in range(len(words_list) - 2):
-        key = (words_list[i], words_list[i + 1])
-        value = [words_list[i + 2]]
+    words.append(None)
 
-        if key in chains:
-            chains[key].extend(value)
-        else:
-            chains[key] = value
+    for word in range(len(words) - 2):
+        key = (words[i], words[i + 1])
+        value = words[i + 2]
 
+        if key not in chains:
+            chains[key] = []
+
+        chains[key].append(value)
+        
         i = i + 1
 
     sorted(chains.keys())
@@ -71,52 +69,16 @@ def make_chains(text_string):
 def make_text(chains):
     """Return text from chains."""
 
-    words = []
-    keys_list = []
-    tuple_list = []
+    key_names = choice(list(chains.keys()))
 
-    for key in chains:
-        keys_list.extend(key)
+    words = [key_names[0], key_names[1]]
+    random_value = choice(chains[key_names])
 
-    # i = randint(0, len(keys_list) - 2)
-
-    # key1 = (keys_list[i], keys_list[i + 2])
-
-    # print(key1)
-
-    # words.extend(key1)
-
-    i = 0
-
-    for word in range(len(keys_list)):
-        key_set = (keys_list[i], keys_list[i + 1])
-        tuple(key_set)
-
-        tuple_list.append(key_set)
-        
-        i = i + 2
-
-        if i >= len(keys_list):
-            break
-
-    first_key = choice(tuple_list)
-    words.extend([first_key[0]])
-
-    while choice(chains[first_key]) != 'am?':
-        key1 = ((first_key[1], choice(chains[first_key])))
-
-        print(key1)
-
-        list(key1)
-
-        words.extend([key1[1]])
-
-        first_key = key1
-
-    print(words)
-
-    words.extend(['am?'])
-
+    while random_value is not None:
+        key_names = (key_names[1], random_value)
+        words.append(random_value)
+        random_value = choice(chains[key_names])
+    
     return " ".join(words)
 
 
